@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Library_DEPI.Models.Checkout>
+
+@{
+    ViewData["Title"] = "Checkouts List";
+}
+
+<h2 class="text-center">Checkouts List</h2>
+
+
+
+@if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+{
+    <div style="margin-left:12%;" class="p-2">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New Checkout</a>
+        </p>
+    </div>
+
+}
+
+<table class="table shadow mx-auto" style="width: 80%;">
+    <thead>
+        <tr>
+            @* <th>ID</th> *@
+            <th>Book Title</th>
+            <th>User Email</th>
+            <th>Checkout Date</th>
+            <th>Due Date</th>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+            {
+                    <th>Actions</th>
+                
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var checkout in Model)
+        {
+            <tr>
+                @* <td>@checkout.Id</td> *@
+                <td>@checkout.Book.Title</td>
+                <td>@checkout.User.Email</td>
+                <td>@checkout.CheckoutDate.ToShortDateString()</td>
+                <td>@checkout.DueDate.ToShortDateString()</td>
+                <td>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                    {
+                    <a asp-action="Details" asp-route-id="@checkout.Id" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@checkout.Id" class="btn btn-danger">Delete</a>
+
+                        <a asp-action="Edit" asp-route-id="@checkout.Id" class="btn btn-warning">Edit</a>
+
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

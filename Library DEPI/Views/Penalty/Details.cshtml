@@ -1,0 +1,41 @@
+﻿@model Library_DEPI.Models.Penalty
+@{
+    ViewData["Title"] = "Penalty Details";
+
+}
+
+<h2>Penalty Details</h2>
+
+<div>
+    <h4>Penalty</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Penalty ID
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Id
+        </dd>
+        <dt class="col-sm-2">
+            Amount
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Amount
+        </dd>
+        <dt class="col-sm-2">
+            Overdue Days
+        </dt>
+        <dd class="col-sm-10">
+            @Model.OverdueDays
+        </dd>
+        <dt class="col-sm-2">
+            Return ID
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ReturnID
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>

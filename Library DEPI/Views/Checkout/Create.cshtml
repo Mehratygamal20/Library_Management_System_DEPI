@@ -1,0 +1,48 @@
+﻿@using System.Security.Claims
+@model Library_DEPI.ViewModel.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Create Checkout";
+}
+
+<h2 class="text-center">Create Checkout</h2>
+
+<div class="card shadow" style="width: 50%; margin: auto;">
+    <div class="container mt-4">
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="CheckoutDate" class="control-label">Checkout Date</label>
+                    <input asp-for="CheckoutDate" class="form-control" type="date" required />
+                    <span asp-validation-for="CheckoutDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SelectedBookId" class="control-label">Book Name</label>
+                    <select asp-for="SelectedBookId" class="form-control" asp-items="@(new SelectList(Model.AvailableBooks, "Id", "Title",Model.SelectedBookId))">
+                        <option value="">-- Select Book --</option>
+                    </select>
+                    <span asp-validation-for="SelectedBookId" class="text-danger"></span>
+                </div>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                {
+                    <div class="form-group">
+                        <label asp-for="SelectedUserId" class="control-label">User</label>
+                        <select asp-for="SelectedUserId" class="form-control" asp-items="@(new SelectList(Model.AvailableUsers, "Id", "Email",Model.SelectedUserId))">
+                            <option value="">-- Select User --</option>
+                        </select>
+                        <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="SelectedUserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                }
+
+                <button type="submit" class="btn btn-primary mt-2">Create</button>
+                <a asp-action="Index" class="btn btn-secondary mt-2" style="float:right;">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>

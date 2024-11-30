@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Library_DEPI.Models.Penalty>
+
+@{
+    ViewData["Title"] = "Penalty List";
+}
+
+<h2>Penalty List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Penalty ID</th>
+            <th>Amount</th>
+            <th>Overdue Days</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Amount</td>
+                <td>@item.OverdueDays</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

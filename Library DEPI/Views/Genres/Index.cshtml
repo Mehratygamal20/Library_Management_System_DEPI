@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Library_DEPI.Models.Genre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">List of Genres</h1>
+@if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+{
+    <div style="margin-left:12%;" class="p-2">
+        <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+    </div>
+    
+}
+<table class="table shadow mx-auto" style="width: 80%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-lg btn-secondary">Details</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-lg btn-info">Edit</a> 
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-lg btn-danger">Delete</a>
+                        
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+﻿@model Library_DEPI.Models.Genre
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-center">Edit Genre</h1>
+
+<div class="d-flex justify-content-center">
+    <div class="card shadow" style="width: 50%;">
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                    <div>
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

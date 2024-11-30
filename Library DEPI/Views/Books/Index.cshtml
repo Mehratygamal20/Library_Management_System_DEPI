@@ -1,0 +1,227 @@
+﻿@* @model IEnumerable<Library_DEPI.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailabilityStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (item.AvailabilityStatus)
+                {
+                    <span>Available</span>
+                }
+                else
+                {
+                    <span>Not Available</span>
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishedDate)
+            </td>
+            <td>
+                
+               <img height="100px" width="100px" src="~/images/@Html.DisplayFor(modelItem => item.BookImage) " alt="@Html.DisplayFor(modelItem => item.Title)" />
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+ *@
+
+@model IEnumerable<Library_DEPI.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">All Books</h1>
+<div class="d-flex justify-content-evenly align-items-center ">
+
+
+    <div>
+        <form asp-action="Index" class="form-inline">
+            <label>Search By</label>
+             <select name="searchBy" class="form-control mr-2" style="width:200%;margin-bottom:2%;">
+                <option value="Title">Title</option>
+                <option value="Author">Author</option>
+                <option value="Genre">Genre</option>
+            </select>
+            <input type="text" name="searchString" style="width:200%;" class="form-control mr-2" placeholder="Search...">
+            <button type="submit" class="btn btn-secondary" style="margin-top:4%;"> Search</button>
+            <button type="submit" class="btn btn-dark" asp-action="Index" style="margin-top:4%;"> Back To All Books</button>
+        </form>
+    </div>
+
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+    {
+        <div>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+        </div>
+    }
+
+    
+</div>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+        <article class="card">
+            <figure>
+                <img src="~/images/@item.BookImage" alt="@item.Title" />
+            </figure>
+            <h2>@item.Title</h2>
+            <p>@item.Description</p>
+            <div class="details">
+                <p><strong>Published:</strong> @item.PublishedDate.ToShortDateString()</p>
+                <p>
+                    <strong>Status:</strong> 
+                    @if (item.AvailabilityStatus)
+                    {
+                        <span style="color:green">Available</span>
+                    }
+                    else
+                    {
+                        <span style="color:red">Not Available</span>
+                    }
+                </p>
+            </div>
+            <div class="actions">
+                <p><strong>Author:</strong> @item.Author?.Name</p>
+                <p><strong>Genre:</strong> @item.Genre?.Name</p>
+            </div>
+            <div class="action-links">
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-lg btn-secondary">Details</a>
+                @if (User.IsInRole("Admin") || User.IsInRole("Super Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-lg btn-info">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-lg btn-danger">Delete</a>
+
+                }
+                <a asp-action="Create" asp-controller="Checkout" asp-route-selectedBookId="@item.Id" class="btn btn-lg btn-warning" style="margin-top:2%;">Checkout</a>
+
+
+                @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+            </div>
+        </article>
+    }
+</div>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        padding: 15px; /* Reduced padding */
+        max-height: 700px; /* Increased max height */
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+    figure {
+        margin: 0;
+        position: relative;
+        height: 500px; /* Increased height for the figure */
+        overflow: hidden;
+    }
+
+        figure img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            max-height: 100%; /* Ensure the image fits */
+            object-fit: cover; /* Cover the space */
+        }
+
+    h2 {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+
+    .details, .actions {
+        display: flex;
+        justify-content: space-between; /* Align items */
+    }
+
+    .action-links {
+        margin-top: 10px;
+    }
+</style>
+

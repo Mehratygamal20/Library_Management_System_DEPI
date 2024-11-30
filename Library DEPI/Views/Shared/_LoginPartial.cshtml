@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+
+    // Get the full email
+    var email = UserManager.GetUserName(User);
+
+    // Extract the first name from the email (assuming format is 'firstname.lastname@domain.com')
+    var firstName = email.Split('@')[0].Split('.')[0];
+
+
+
+    @*  <li >
+        <a id="manage"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)</a>
+    </li> *@
+
+    <li style="list-style-type:none;">
+        <p style="margin-bottom:0;" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName</p>
+    </li>
+    <li style="list-style-type:none;">
+        @* <form id="logoutForm"  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+    <button id="logout" type="submit" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="btn border-0">Logout</button>
+    </form> *@
+        <a style="text-decoration:none;color:black;font-size:24px;" id="logout" type="submit" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="btn border-0">Logout</a>
+    </li>
+}
+else
+{
+    <li style="list-style-type:none;">
+        <a style="text-decoration:none;color:black;" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li style="list-style-type:none;">
+        <a style="text-decoration:none;color:black;margin-left:16%;" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+

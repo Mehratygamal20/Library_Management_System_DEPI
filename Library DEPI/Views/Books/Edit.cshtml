@@ -1,0 +1,104 @@
+﻿@model Library_DEPI.ViewModels.BookViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-center">Edit Book</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group row mb-3">
+                        <label asp-for="Title" class="col-md-4 control-label"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label asp-for="Description" class="col-md-4 control-label"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-8 form-check">
+                            <input class="form-check-input" asp-for="AvailabilityStatus" />
+                            <label class="form-check-label" asp-for="AvailabilityStatus">@* @Html.DisplayNameFor(model => model.AvailabilityStatus) *@ Availability Status</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label asp-for="PublishedDate" class="col-md-4 control-label"> Published Date</label>
+                        <div class="col-md-8">
+                            <input asp-for="PublishedDate" class="form-control" />
+                            <span asp-validation-for="PublishedDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Image" class="control-label col-md-4"></label>
+                        <div class="col-md-6">
+                            <input type="file" onchange="load(event)" asp-for="Image" class="form-control" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2" style="margin:0%;padding:1%;">
+                            <img src="~/images/@Html.DisplayFor(model => model.BookImagePath)" alt="@Html.DisplayFor(model => model.Title)" id="image" height="100px" width="100px" style="display:block;" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label asp-for="AuthorID" class="col-md-4 control-label">Author</label>
+                        <div class="col-md-8">
+                            <select asp-for="AuthorID" class="form-control" asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label asp-for="GenreID" class="col-md-4 control-label">Genre</label>
+                        <div class="col-md-8">
+                            <select asp-for="GenreID" class="form-control" asp-items="@(new SelectList(ViewBag.Genres, "Id", "Name"))"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-8 offset-md-4">
+                            <input type="submit" value="Save" class="btn btn-primary" style="font-size:20px; margin-top: 4%;" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="text-right">
+                    <a asp-action="Index" class="btn btn-secondary" style="float:right;">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var load = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var image = document.getElementById("image");
+            image.src = reader.result;
+            image.style.display = "block"; // Show the image element
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+</style>

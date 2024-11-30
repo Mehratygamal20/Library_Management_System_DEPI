@@ -1,0 +1,29 @@
+﻿@model Library_DEPI.Models.Author
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center">Create Author</h1>
+
+<div class="container mt-4">
+    <div class="card shadow" style="width: 50%; margin: auto;">
+        
+        <div class="card-body">
+            <h4 class="card-title">Author Information</h4>
+            <hr />
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
